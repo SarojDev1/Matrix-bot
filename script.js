@@ -1,7 +1,7 @@
-// Replace these with your own values
-const sheetID = '141Ea_xHBXPi6rItn07EiJMrUjVU7m9AFP8HFJi-Dm8I'; // Your Google Sheet ID
-const apiKey = 'AIzaSyCGAeE8tIC7tz0fHvUfVQdb36-v8htnd7k'; // Your Google API Key
-const range = 'MATCH MVP!A1:E'; // Data range in the sheet
+// Replace with your own values
+const sheetID = '141Ea_xHBXPi6rItn07EiJMrUjVU7m9AFP8HFJi-Dm8I'; // Your Sheet ID
+const apiKey = 'AIzaSyCGAeE8tIC7tz0fHvUfVQdb36-v8htnd7k'; // Your API Key
+const range = 'MATCH MVP!A2:E'; // Adjust range to your sheet's data
 
 // Google Sheets API URL
 const sheetURL = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${range}?key=${apiKey}`;
@@ -12,15 +12,35 @@ fetch(sheetURL)
   .then(data => {
     const rows = data.values;
 
-    // Skip the header row (rows[0]) and use the first data row (rows[1])
-    const [playerName, elims, damage, logoURL, photoURL] = rows[1];
+    if (!rows || rows.length === 0) {
+      console.error('No data found in the sheet.');
+      return;
+    }
 
-    // Update the HTML elements with the fetched data
-    document.getElementById('player-name').textContent = playerName;
-    document.getElementById('player-elims').textContent = elims;
-    document.getElementById('player-damage').textContent = damage;
-    document.getElementById('player-logo').src = logoURL;
-    document.getElementById('player-image').src = photoURL;
+    const container = document.getElementById('mvp-container');
+
+    rows.forEach(row => {
+      // Assuming your columns are in the order: Name, Elims, Damage, Logo URL, Photo URL
+      const [playerName, elims, damage, logoURL, photoURL] = row;
+
+      // Create player card
+      const playerCard = document.createElement('div');
+      playerCard.classList.add('mvp-card');
+
+      // Add content to the card
+      playerCard.innerHTML = `
+        <img src="${logoURL}" alt="Player Logo">
+        <h2>${playerName}</h2>
+        <img src="${photoURL}" alt="Player Image">
+        <div class="stats">
+          <p><strong>Elims:</strong> ${elims}</p>
+          <p><strong>Damage:</strong> ${damage}</p>
+        </div>
+      `;
+
+      // Append card to the container
+      container.appendChild(playerCard);
+    });
   })
   .catch(error => {
     console.error('Error fetching data from Google Sheets:', error);
