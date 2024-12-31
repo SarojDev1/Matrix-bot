@@ -1,7 +1,7 @@
 // Replace these with your own values
 const sheetID = '1A2B3C4D5E6F7G8H9I0J'; // Your Google Sheet ID
-const apiKey = 'YOUR_API_KEY'; // Your Google API Key
-const range = 'Sheet1!A1:E'; // Data range in the sheet
+const apiKey = 'AIzaSyCGAeE8tIC7tz0fHvUfVQdb36-v8htnd7k'; // Your Google API Key
+const range = 'MATCH MVP!A1:E'; // Data range in the sheet
 
 // Google Sheets API URL
 const sheetURL = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${range}?key=${apiKey}`;
