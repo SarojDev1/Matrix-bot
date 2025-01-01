@@ -76,6 +76,11 @@ body {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
 }
+.player-logo img {
+  background-image: url('fallback-image.jpg'); /* Replace with your fallback image */
+  background-size: cover;
+  background-position: center;
+}
 
 .player-image {
   width: 200px;
