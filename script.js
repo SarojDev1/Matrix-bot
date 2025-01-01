@@ -63,3 +63,4 @@ setInterval(fetchDataAndUpdate, 1000);
 
 // Initial fetch
 fetchDataAndUpdate();
+
