@@ -1,66 +1,160 @@
-// Replace with your own values
-const sheetID = '141Ea_xHBXPi6rItn07EiJMrUjVU7m9AFP8HFJi-Dm8I'; // Your Sheet ID
-const apiKey = 'AIzaSyCGAeE8tIC7tz0fHvUfVQdb36-v8htnd7k'; // Your API Key
-const range = 'MATCH MVP!A2:F'; // Adjust range to include necessary columns
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MATRIX BOT - Premium</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Arial", sans-serif;
+      background: #0a0a0a;
+      color: white;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 50px;
+      background: #0d0d0d;
+      border-bottom: 2px solid #111;
+    }
+    header h1 {
+      color: #00e5ff;
+      font-size: 22px;
+      margin: 0;
+    }
+    nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      color: #00e5ff;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      text-align: center;
+    }
+    .container h2 {
+      font-size: 32px;
+      color: #00e5ff;
+      margin-bottom: 10px;
+    }
+    .container p {
+      font-size: 18px;
+      margin-bottom: 40px;
+      color: #ccc;
+    }
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+    }
+    .plan {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .plan:hover {
+      transform: translateY(-5px);
+      border-color: #00e5ff;
+      box-shadow: 0 0 12px #00e5ff55;
+    }
+    .plan h3 {
+      color: #00e5ff;
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+    .plan ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+    }
+    .plan ul li {
+      margin: 8px 0;
+      font-size: 15px;
+    }
+    .plan button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background: #7d00ff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .plan button:hover {
+      background: #a100ff;
+      box-shadow: 0 0 10px #a100ff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MATRIX BOT</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="features.html">Features</a>
+      <a href="commands.html">Commands</a>
+      <a href="about.html">About</a>
+      <a href="developer.html">Developer</a>
+      <a href="discord.html">Discord</a>
+      <a href="premium.html">Premium</a>
+      <a href="custom.html">Custom Bot</a>
+      <a href="vote.html">Vote</a>
+      <a href="reviews.html">Reviews</a>
+    </nav>
+  </header>
 
-// Google Sheets API URL
-const sheetURL = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${range}?key=${apiKey}`;
-
-// Default reset values
-const defaultValues = {
-  playerName: 'Team Name',
-  elims: '0',
-  damage: '0',
-  logoURL: '',
-  photoURL: '',
-};
-
-// Function to update the frontend
-function updateFrontend(data) {
-  const { playerName, elims, damage, logoURL, photoURL } = data;
-
-  // Update fields or reset to default
-  document.getElementById('player-name').textContent = playerName;
-  document.getElementById('player-elims').textContent = elims;
-  document.getElementById('player-damage').textContent = damage;
-  document.getElementById('player-logo').src = logoURL || 'placeholder-logo.png'; // Add placeholder if empty
-  document.getElementById('player-image').src = photoURL || 'placeholder-photo.png'; // Add placeholder if empty
-}
-
-// Function to fetch data from the Google Sheet
-function fetchDataAndUpdate() {
-  fetch(sheetURL)
-    .then(response => response.json())
-    .then(data => {
-      const rows = data.values;
-
-      if (!rows || rows.length === 0) {
-        console.log('No data found in the sheet. Resetting fields.');
-        updateFrontend(defaultValues); // Reset fields
-        return;
-      }
-
-      // Assuming your columns are in this order: Team Name, Elims, Damage, Logo URL, Photo URL
-      const [teamName, elims, damage, logoURL, photoURL] = rows[0];
-
-      // Update the frontend with the fetched data
-      updateFrontend({
-        playerName: teamName || defaultValues.playerName,
-        elims: elims || defaultValues.elims,
-        damage: damage || defaultValues.damage,
-        logoURL: logoURL || defaultValues.logoURL,
-        photoURL: photoURL || defaultValues.photoURL,
-      });
-    })
-    .catch(error => {
-      console.error('Error fetching data from Google Sheets:', error);
-      updateFrontend(defaultValues); // Reset fields in case of error
-    });
-}
-
-// Fetch data every 1 second
-setInterval(fetchDataAndUpdate, 1000);
-
-// Initial fetch
-fetchDataAndUpdate();
-
+  <div class="container">
+    <h2>Premium Plans</h2>
+    <p>Choose the plan that fits your needs. All plans include premium features and priority support.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>7 Days</h3>
+        <ul>
+          <li>All premium features</li>
+          <li>Priority support</li>
+          <li>Perfect for short events</li>
+        </ul>
+        <button>Buy Now</button>
+      </div>
+      <div class="plan">
+        <h3>14 Days</h3>
+        <ul>
+          <li>All premium features</li>
+          <li>Priority support</li>
+          <li>Great for tournaments</li>
+        </ul>
+        <button>Buy Now</button>
+      </div>
+      <div class="plan">
+        <h3>30 Days</h3>
+        <ul>
+          <li>All premium features</li>
+          <li>Priority support</li>
+          <li>Best value monthly</li>
+        </ul>
+        <button>Buy Now</button>
+      </div>
+      <div class="plan">
+        <h3>90 Days</h3>
+        <ul>
+          <li>All premium features</li>
+          <li>Priority support</li>
+          <li>Save more quarterly</li>
+        </ul>
+        <button>Buy Now</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
