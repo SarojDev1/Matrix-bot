@@ -5,180 +5,156 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MATRIX BOT - Premium</title>
   <style>
-    body {
-      margin: 0;
-      font-family: "Arial", sans-serif;
-      background: #0a0a0a;
-      color: white;
+    :root{
+      --bg-1: #060609;
+      --bg-2: #0b0b0d;
+      --muted: #9aa0a6;
+      --purple: #7b2bff;
+      --cyan: #00e0ff;
     }
 
-    /* Header/Nav */
-    nav.topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      background: #0d0d0d;
-      border-bottom: 2px solid #111;
-    }
-    nav .brand .big {
-      font-size: 22px;
-      font-weight: bold;
-      color: #00e5ff;
-    }
-    nav .brand .small {
-      font-size: 12px;
-      color: #aaa;
-    }
-    nav .desktop-nav a {
-      color: white;
-      margin-left: 20px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-    nav .desktop-nav a:hover {
-      color: #00e5ff;
-    }
-    .hamburger {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 24px;
-      color: white;
-      cursor: pointer;
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family: "Inter", Arial, sans-serif;
+      background: linear-gradient(180deg,var(--bg-1), var(--bg-2));
+      color:white;
     }
 
-    /* Mobile Menu (RIGHT SIDE) */
-    .mobile-menu {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 260px;
-      height: 100%;
-      background: #111;
-      color: white;
-      padding: 20px;
-      transition: right 0.3s ease;
-      z-index: 1000;
+    .container{ max-width:1200px; margin:0 auto; padding:22px; }
+
+    /* NAVBAR */
+    nav.topbar{
+      display:flex;align-items:center;gap:22px;height:72px;
     }
-    .mobile-menu.active {
-      right: 0;
+    .brand{display:flex;align-items:center;gap:12px;color:#fff;}
+    .brand .title{display:flex;flex-direction:column;line-height:1;}
+    .brand .title .big{font-weight:800;font-size:14px;letter-spacing:0.02em}
+    .brand .title .small{font-size:12px;color:var(--muted);margin-top:2px}
+
+    .desktop-nav{
+      margin-left:auto;
+      display:flex;
+      gap:18px;
+      align-items:center;
+      color:#c9d4df;
+      font-weight:600;
     }
-    .mobile-menu h3 {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #00e5ff;
+    .desktop-nav a{
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:8px;
+      transition:all .15s ease;
+      color:inherit;
     }
-    .mobile-menu a {
-      display: block;
-      margin: 10px 0;
-      color: white;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-    .mobile-menu a:hover {
-      color: #00e5ff;
-    }
-    .mobile-menu .close-btn {
-      background: none;
-      border: none;
-      font-size: 20px;
-      color: white;
-      cursor: pointer;
-      margin-bottom: 15px;
+    .desktop-nav a:hover{
+      transform:translateY(-3px);
+      box-shadow: 0 8px 26px rgba(0,0,0,0.6);
+      color:var(--cyan);
     }
 
-    /* Premium Plans */
-    .container {
-      max-width: 1100px;
-      margin: 40px auto;
-      padding: 0 15px;
-      text-align: center;
-    }
-    .container h2 {
-      font-size: 32px;
-      color: #00e5ff;
-      margin-bottom: 10px;
-    }
-    .container p {
-      font-size: 18px;
-      margin-bottom: 40px;
-      color: #ccc;
-    }
-    .plans {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 25px;
-    }
-    .plan {
-      background: #111;
-      border: 1px solid #222;
-      border-radius: 12px;
-      padding: 25px;
-      text-align: center;
-      transition: 0.3s;
-    }
-    .plan:hover {
-      transform: translateY(-5px);
-      border-color: #00e5ff;
-      box-shadow: 0 0 12px #00e5ff55;
-    }
-    .plan h3 {
-      color: #00e5ff;
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    .plan .price {
-      font-size: 20px;
-      color: #7dff00;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
-    .plan ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 20px;
-    }
-    .plan ul li {
-      margin: 8px 0;
-      font-size: 15px;
-    }
-    .plan a button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      background: #7d00ff;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .plan a button:hover {
-      background: #a100ff;
-      box-shadow: 0 0 10px #a100ff;
+    /* hamburger */
+    .hamburger{
+      display:none;
+      margin-left:auto;
+      font-size:28px;
+      background:none;
+      border:none;
+      color:white;
+      cursor:pointer;
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .desktop-nav {
-        display: none;
-      }
-      .hamburger {
-        display: block;
-      }
+    /* mobile menu overlay */
+    .mobile-menu{
+      position:fixed;top:0;right:-100%;width:80%;height:100%;
+      background:var(--bg-2);
+      color:white;
+      transition:right 0.3s ease;
+      z-index:1000;
+      padding:24px;
+      overflow-y:auto;
+    }
+    .mobile-menu.active{ right:0; }
+    .mobile-menu .close-btn{
+      background:none;border:none;color:white;font-size:24px;cursor:pointer;float:right;
+    }
+    .mobile-menu h3{
+      margin:22px 0 8px;font-size:14px;color:var(--cyan);text-transform:uppercase;
+    }
+    .mobile-menu a{
+      display:block;padding:8px 0;color:#e6eef8;text-decoration:none;font-weight:600;
+    }
+    .mobile-menu a:hover{ color:var(--purple); }
+
+    /* Premium Section */
+    .plans{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap:25px;
+      margin-top:50px;
+    }
+    .plan{
+      background:#111;
+      border:1px solid #222;
+      border-radius:12px;
+      padding:25px;
+      text-align:center;
+      transition:0.3s;
+    }
+    .plan:hover{
+      transform:translateY(-5px);
+      border-color:var(--cyan);
+      box-shadow:0 0 12px #00e5ff55;
+    }
+    .plan h3{ color:var(--cyan); font-size:22px; margin-bottom:12px; }
+    .plan ul{ list-style:none; padding:0; margin:0 0 20px; color:#ccc; font-size:14px; }
+    .plan ul li{ margin:8px 0; }
+    .plan .price{ font-size:20px; font-weight:800; margin:10px 0 18px; color:#7b2bff; }
+    .plan button{
+      padding:10px 20px;
+      border:none;
+      border-radius:6px;
+      background:var(--purple);
+      color:white;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.3s;
+    }
+    .plan button:hover{ background:#9c4dff; box-shadow:0 0 10px #9c4dff; }
+
+    @media(max-width:768px){
+      .desktop-nav{ display:none; }
+      .hamburger{ display:block; }
     }
   </style>
 </head>
 <body>
-  <!-- NAV -->
-  <nav class="topbar">
-    <div class="brand">
-      <div class="big">MATRIX BOT</div>
-      <div class="small">Your Ultimate Discord Bot</div>
-    </div>
+  <div class="container">
+    <!-- NAV -->
+    <nav class="topbar">
+      <div class="brand">
+        <div class="title">
+          <div class="big">MATRIX BOT</div>
+          <div class="small">Your Ultimate Discord Bot</div>
+        </div>
+      </div>
 
-    <div class="desktop-nav">
+      <div class="desktop-nav">
+        <a href="index.html">Home</a>
+        <a href="features.html">Features</a>
+        <a href="commands.html">Commands</a>
+        <a href="about.html">About</a>
+        <a href="developer.html">Developer</a>
+        <a href="discord.html">Discord</a>
+        <a href="premium.html">Premium</a>
+      </div>
+
+      <button class="hamburger">☰</button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <button class="close-btn">✕</button>
+      <h3>Matrix LINKS</h3>
       <a href="index.html">Home</a>
       <a href="features.html">Features</a>
       <a href="commands.html">Commands</a>
@@ -186,38 +162,15 @@
       <a href="developer.html">Developer</a>
       <a href="discord.html">Discord</a>
       <a href="premium.html">Premium</a>
+
+      <h3>RESOURCES</h3>
+      <a href="#">Documentation</a>
+      <a href="#">FAQ</a>
+      <a href="#">Status</a>
+      <a href="https://discord.gg/jk9n94azpA">Support</a>
     </div>
 
-    <button class="hamburger" id="menuBtn">☰</button>
-  </nav>
-
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="close-btn" id="closeBtn">✕</button>
-    <h3>Matrix LINKS</h3>
-    <a href="index.html">Home</a>
-    <a href="features.html">Features</a>
-    <a href="commands.html">Commands</a>
-    <a href="about.html">About</a>
-    <a href="developer.html">Developer</a>
-    <a href="discord.html">Discord</a>
-    <a href="premium.html">Premium</a>
-
-    <h3>RESOURCES</h3>
-    <a href="#">Documentation</a>
-    <a href="#">FAQ</a>
-    <a href="#">Status</a>
-    <a href="https://discord.gg/jk9n94azpA" target="_blank">Support</a>
-
-    <h3>FOLLOW US</h3>
-    <a href="https://discord.gg/jk9n94azpA" target="_blank">Discord</a>
-  </div>
-
-  <!-- Premium Plans -->
-  <div class="container">
-    <h2>Premium Plans</h2>
-    <p>Choose the plan that fits your needs. All plans include premium features and priority support.</p>
-
+    <!-- Premium Section -->
     <div class="plans">
       <div class="plan">
         <h3>7 Days</h3>
@@ -227,11 +180,8 @@
           <li>Priority support</li>
           <li>Perfect for short events</li>
         </ul>
-        <a href="https://discord.gg/jk9n94azpA" target="_blank">
-          <button>Buy Now</button>
-        </a>
+        <a href="https://discord.gg/jk9n94azpA" target="_blank"><button>Buy Now</button></a>
       </div>
-
       <div class="plan">
         <h3>14 Days</h3>
         <div class="price">80 NPR</div>
@@ -240,11 +190,8 @@
           <li>Priority support</li>
           <li>Great for tournaments</li>
         </ul>
-        <a href="https://discord.gg/jk9n94azpA" target="_blank">
-          <button>Buy Now</button>
-        </a>
+        <a href="https://discord.gg/jk9n94azpA" target="_blank"><button>Buy Now</button></a>
       </div>
-
       <div class="plan">
         <h3>1 Month</h3>
         <div class="price">150 NPR</div>
@@ -253,26 +200,19 @@
           <li>Priority support</li>
           <li>Best value monthly</li>
         </ul>
-        <a href="https://discord.gg/jk9n94azpA" target="_blank">
-          <button>Buy Now</button>
-        </a>
+        <a href="https://discord.gg/jk9n94azpA" target="_blank"><button>Buy Now</button></a>
       </div>
     </div>
   </div>
 
-  <!-- JS for Mobile Menu -->
   <script>
-    const menuBtn = document.getElementById("menuBtn");
-    const closeBtn = document.getElementById("closeBtn");
-    const mobileMenu = document.getElementById("mobileMenu");
+    // mobile menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeBtn = mobileMenu.querySelector('.close-btn');
 
-    menuBtn.addEventListener("click", () => {
-      mobileMenu.classList.add("active");
-    });
-
-    closeBtn.addEventListener("click", () => {
-      mobileMenu.classList.remove("active");
-    });
+    hamburger.addEventListener('click', ()=> mobileMenu.classList.add('active'));
+    closeBtn.addEventListener('click', ()=> mobileMenu.classList.remove('active'));
   </script>
 </body>
 </html>
