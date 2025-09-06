@@ -49,7 +49,8 @@
 
     /* NAVBAR */
     nav.topbar{
-      display:flex;align-items:center;gap:22px;height:72px;
+      display:flex;align-items:center;justify-content:space-between;
+      height:72px;
     }
     .brand{display:flex;align-items:center;gap:12px;color:#fff;}
     .brand .title{display:flex;flex-direction:column;line-height:1;}
@@ -57,7 +58,6 @@
     .brand .title .small{font-size:12px;color:var(--muted);margin-top:2px}
 
     .desktop-nav{
-      margin-left:auto;
       display:flex;
       gap:18px;
       align-items:center;
@@ -79,7 +79,6 @@
     /* hamburger */
     .hamburger{
       display:none;
-      margin-left:auto;
       font-size:28px;
       background:none;
       border:none;
@@ -168,7 +167,6 @@
     }
     @media (max-width:560px){
       .desktop-nav{ display:none; }
-      .brand{ display:none; } /* hide matrix logo in mobile */
       .hamburger{ display:block; }
       .meet{ font-size:36px }
       .card{ height:360px }
