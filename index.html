@@ -1,43 +1,337 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MVP Grand Finals</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MATRIX BOT — Your Ultimate Discord Bot</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b0b0d;
+      --panel:#0f1114;
+      --muted:#9aa0a6;
+      --accent-1: #6a24ff; /* purple */
+      --accent-2: #00e0ff; /* cyan */
+      --glass: rgba(255,255,255,0.03);
+    }
+
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      min-height:100%;
+      background:
+        radial-gradient(1000px 400px at 10% 20%, rgba(106,36,255,0.06), transparent 6%),
+        radial-gradient(800px 300px at 90% 80%, rgba(0,224,255,0.04), transparent 6%),
+        linear-gradient(180deg,#070708 0%, #0b0b0d 100%);
+      color:#e6eef8;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding: 28px;
+    }
+
+    /* Top navigation */
+    .nav{
+      max-width:1200px;
+      margin:0 auto 40px;
+      display:flex;
+      align-items:center;
+      gap:24px;
+      height:64px;
+    }
+    .nav .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .logo-mini{
+      width:44px;height:44px;border-radius:8px;
+      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+      display:flex;align-items:center;justify-content:center;font-weight:900;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 0 18px rgba(106,36,255,0.12), 0 0 36px rgba(0,224,255,0.06);
+      font-family: "Orbitron", monospace;
+      color:white;
+    }
+    .brand h1{font-size:16px;letter-spacing:0.02em}
+    .nav-links{
+      margin-left:auto;
+      display:flex;
+      gap:18px;
+      align-items:center;
+      font-weight:600;
+      color: #cbd5e1;
+    }
+    .nav-links a{ text-decoration:none; padding:8px 14px; border-radius:8px; transition:all .18s; }
+    .nav-links a:hover{ transform:translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.6) }
+
+    /* Main hero container */
+    .hero-wrap{
+      max-width:1200px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: 1fr 460px;
+      gap:48px;
+      align-items:center;
+      min-height:68vh;
+      padding:40px;
+    }
+
+    /* Left column (text) */
+    .hero-left{
+      padding-right:12px;
+    }
+    .kicker{
+      font-family: "Orbitron", monospace;
+      font-weight:900;
+      letter-spacing:0.08em;
+      background: linear-gradient(90deg,var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size:46px;
+      line-height:0.95;
+      margin-bottom:8px;
+      text-shadow: 0 6px 40px rgba(106,36,255,0.06);
+    }
+    .tagline{
+      display:block;
+      margin-bottom:18px;
+      font-weight:700;
+      color:var(--accent-2);
+      font-family: "Orbitron", monospace;
+      letter-spacing: .06em;
+    }
+    .desc{
+      color:var(--muted);
+      max-width:640px;
+      margin-bottom:28px;
+      font-size:15px;
+      line-height:1.6;
+    }
+
+    /* CTA buttons */
+    .cta{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 18px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:700;
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(6px);
+      transition: all .18s ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    }
+    .btn-invite{
+      background: linear-gradient(90deg,var(--accent-1), var(--accent-2));
+      color:white;
+      box-shadow: 0 10px 40px rgba(106,36,255,0.12), 0 0 40px rgba(0,224,255,0.06);
+      border: none;
+    }
+    .btn-invite:hover{ transform: translateY(-3px); filter:brightness(1.02) }
+    .btn-ghost{
+      color: #dbeafe;
+      border:1px solid rgba(255,255,255,0.06);
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+    }
+    .btn-ghost:hover{ transform: translateY(-3px) }
+
+    /* Right column (logo card) */
+    .card{
+      width:100%;
+      max-width:460px;
+      height:460px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.03);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+      box-shadow: 0 20px 80px rgba(12,12,14,0.7), 0 0 48px rgba(106,36,255,0.08);
+      padding:18px;
+    }
+    .card::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      border-radius:12px;
+      pointer-events:none;
+      box-shadow: 0 0 40px rgba(106,36,255,0.12), inset 0 0 28px rgba(0,224,255,0.04);
+      mix-blend-mode:screen;
+    }
+    .logo-wrap{
+      width:92%;
+      height:92%;
+      border-radius:10px;
+      background: linear-gradient(180deg, #071226, #0b2230);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+      box-shadow: 0 12px 60px rgba(9,12,16,0.6);
+    }
+    .logo-wrap img{
+      max-width:86%;
+      max-height:86%;
+      object-fit:contain;
+      filter: drop-shadow(0 12px 30px rgba(0,0,0,0.7));
+    }
+
+    /* small neon badge under hero */
+    .feature-row{
+      margin-top:22px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .feature-pill{
+      background: linear-gradient(90deg, rgba(106,36,255,0.06), rgba(0,224,255,0.03));
+      color:var(--accent-2);
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:13px;
+      border:1px solid rgba(255,255,255,0.02);
+      letter-spacing:0.02em;
+    }
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero-wrap{ grid-template-columns:1fr; gap:28px; padding:24px; min-height:60vh }
+      .card{ width:100%; height:420px; max-width:840px; margin:0 auto }
+      .nav{ padding:0 6px }
+    }
+    @media (max-width:560px){
+      .kicker{ font-size:36px }
+      .nav-links{ display:none }
+      .logo-mini{ width:38px;height:38px }
+      .card{ height:360px }
+    }
+
+    /* subtle animated gradient on hero text (neon shimmer) */
+    @keyframes neon {
+      0%{ text-shadow: 0 0 8px rgba(106,36,255,0.15), 0 0 24px rgba(0,224,255,0.05) }
+      50%{ text-shadow: 0 0 18px rgba(106,36,255,0.25), 0 0 42px rgba(0,224,255,0.12) }
+      100%{ text-shadow: 0 0 8px rgba(106,36,255,0.15), 0 0 24px rgba(0,224,255,0.05) }
+    }
+    .kicker { animation: neon 4s ease-in-out infinite; }
+
+    /* small footer */
+    footer{
+      max-width:1200px;margin:50px auto 22px;color:#7b8792;font-size:13px;text-align:center;
+    }
+    a.minilink{ color:var(--accent-2); text-decoration:none; font-weight:700 }
+  </style>
 </head>
 <body>
-  <div class="mvp-container">
-    <!-- Header Section -->
-    <div class="mvp-header">
-      <h1>MVP</h1>
-      <div class="sub-header">
-        <span class="grand-finals">GRAND FINALS</span>
-        <span class="day">DAY - 1</span>
+
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="brand">
+      <div class="logo-mini" aria-hidden="true">M</div>
+      <div>
+        <div style="font-weight:700">MATRIX BOT</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">Discord moderation & utilities</div>
       </div>
     </div>
 
-    <!-- Player Section -->
-    <div class="player-section">
-      <div class="player-logo">
-        <img src="" alt="Player Logo" id="player-logo">
-      </div>
-      <img src="" alt="Player Image" class="player-image" id="player-image">
-      <div class="player-details">
-        <h2 class="player-name" id="player-name">Team Name</h2>
-        <div class="stats">
-          <p><span class="stat-title">ELIMS</span> <span class="stat-value" id="player-elims">0</span></p>
-          <p><span class="stat-title">DAMAGE</span> <span class="stat-value" id="player-damage">0</span></p>
-        </div>
-      </div>
+    <div class="nav-links" role="menubar" aria-label="Site">
+      <a href="#" role="menuitem">Home</a>
+      <a href="#features" role="menuitem">Features</a>
+      <a href="#commands" role="menuitem">Commands</a>
+      <a href="#about" role="menuitem">About</a>
+      <a href="#premium" role="menuitem">Premium</a>
     </div>
+  </nav>
 
-    <footer class="footer">
-      <p>E-NEPAL GAMES</p>
-    </footer>
-  </div>
+  <main class="hero-wrap" role="main">
+    <section class="hero-left" aria-labelledby="hero-title">
+      <h2 id="hero-title" class="kicker">MATRIX BOT</h2>
+      <div class="tagline">Your Ultimate Discord Bot</div>
 
-  <script src="script.js"></script>
+      <p class="desc">
+        Enhance your Discord server with powerful moderation tools, automation, tournament management, and community features — built to scale for clans, communities, and pro teams.
+      </p>
+
+      <div class="cta" role="group" aria-label="Primary actions">
+        <a id="inviteBtn" class="btn btn-invite" href="https://discord.com/oauth2/authorize?client_id=1408469170382831616&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener noreferrer">
+          <!-- SVG plus icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5v14M5 12h14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Invite MATRIX
+        </a>
+
+        <a id="supportBtn" class="btn btn-ghost" href="https://discord.gg/jk9n94azpA" target="_blank" rel="noopener noreferrer">
+          <!-- discord icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 10s1.5-1 3-1 3 1 3 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M17 8v6a6 6 0 0 1-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M7 14c0-1.5 1.5-3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Support Server
+        </a>
+      </div>
+
+      <div class="feature-row" aria-hidden="true">
+        <div class="feature-pill">Moderation</div>
+        <div class="feature-pill">Auto Roles</div>
+        <div class="feature-pill">Tournaments</div>
+        <div class="feature-pill">Music & Utility</div>
+      </div>
+    </section>
+
+    <aside class="card" aria-label="MATRIX logo card">
+      <div class="logo-wrap">
+        <!-- Replace 'logo.png' with your actual logo file name -->
+        <img src="logo.png" alt="MATRIX BOT logo (replace with your own image)">
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    Built with ♥ for communities • <a class="minilink" href="#" onclick="event.preventDefault()">MATRIX BOT</a>
+  </footer>
+
+  <script>
+    // Small enhancement: if logo is missing, show fallback graphics
+    (function(){
+      const img = document.querySelector('.logo-wrap img');
+      img.onerror = function(){
+        // draw a simple generated SVG as a fallback
+        const svg = `
+          <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'>
+            <defs>
+              <linearGradient id='g' x1='0' x2='1'>
+                <stop offset='0' stop-color='#6a24ff'/>
+                <stop offset='1' stop-color='#00e0ff'/>
+              </linearGradient>
+            </defs>
+            <rect width='100%' height='100%' rx='30' fill='#061022'/>
+            <g transform='translate(50,50)'>
+              <rect width='500' height='500' rx='30' fill='url(#g)' opacity='.08'/>
+              <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Orbitron,monospace'
+                    font-size='110' fill='white' opacity='0.95'>M</text>
+            </g>
+          </svg>`;
+        const blob = new Blob([svg], {type:'image/svg+xml;charset=utf-8'});
+        img.src = URL.createObjectURL(blob);
+      };
+    })();
+  </script>
 </body>
 </html>
-
