@@ -11,32 +11,89 @@
       background: #0a0a0a;
       color: white;
     }
-    header {
+
+    /* Header/Nav */
+    nav.topbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 50px;
+      padding: 15px 30px;
       background: #0d0d0d;
       border-bottom: 2px solid #111;
     }
-    header h1 {
-      color: #00e5ff;
+    nav .brand .big {
       font-size: 22px;
-      margin: 0;
+      font-weight: bold;
+      color: #00e5ff;
     }
-    nav a {
+    nav .brand .small {
+      font-size: 12px;
+      color: #aaa;
+    }
+    nav .desktop-nav a {
       color: white;
       margin-left: 20px;
       text-decoration: none;
       font-weight: bold;
       transition: 0.3s;
     }
-    nav a:hover {
+    nav .desktop-nav a:hover {
       color: #00e5ff;
     }
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 260px;
+      height: 100%;
+      background: #111;
+      color: white;
+      padding: 20px;
+      transition: left 0.3s ease;
+      z-index: 1000;
+    }
+    .mobile-menu.active {
+      left: 0;
+    }
+    .mobile-menu h3 {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #00e5ff;
+    }
+    .mobile-menu a {
+      display: block;
+      margin: 10px 0;
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .mobile-menu a:hover {
+      color: #00e5ff;
+    }
+    .mobile-menu .close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: white;
+      cursor: pointer;
+      margin-bottom: 15px;
+    }
+
+    /* Premium Plans */
     .container {
       max-width: 1100px;
       margin: 40px auto;
+      padding: 0 15px;
       text-align: center;
     }
     .container h2 {
@@ -70,7 +127,13 @@
     .plan h3 {
       color: #00e5ff;
       font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .plan .price {
+      font-size: 20px;
+      color: #7dff00;
       margin-bottom: 15px;
+      font-weight: bold;
     }
     .plan ul {
       list-style: none;
@@ -81,7 +144,7 @@
       margin: 8px 0;
       font-size: 15px;
     }
-    .plan button {
+    .plan a button {
       padding: 10px 20px;
       border: none;
       border-radius: 6px;
@@ -91,39 +154,31 @@
       cursor: pointer;
       transition: 0.3s;
     }
-    .plan button:hover {
+    .plan a button:hover {
       background: #a100ff;
       box-shadow: 0 0 10px #a100ff;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+      .hamburger {
+        display: block;
+      }
     }
   </style>
 </head>
 <body>
-    <!-- NAV -->
-    <nav class="topbar">
-      <div class="brand">
-        <div class="title">
-          <div class="big">MATRIX BOT</div>
-          <div class="small">Your Ultimate Discord Bot</div>
-        </div>
-      </div>
+  <!-- NAV -->
+  <nav class="topbar">
+    <div class="brand">
+      <div class="big">MATRIX BOT</div>
+      <div class="small">Your Ultimate Discord Bot</div>
+    </div>
 
-      <div class="desktop-nav">
-        <a href="index.html">Home</a>
-        <a href="features.html">Features</a>
-        <a href="commands.html">Commands</a>
-        <a href="about.html">About</a>
-        <a href="developer.html">Developer</a>
-        <a href="discord.html">Discord</a>
-        <a href="premium.html">Premium</a>
-      </div>
-
-      <button class="hamburger">☰</button>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-      <button class="close-btn">✕</button>
-      <h3>Matrix LINKS</h3>
+    <div class="desktop-nav">
       <a href="index.html">Home</a>
       <a href="features.html">Features</a>
       <a href="commands.html">Commands</a>
@@ -131,62 +186,93 @@
       <a href="developer.html">Developer</a>
       <a href="discord.html">Discord</a>
       <a href="premium.html">Premium</a>
-      
-      <h3>RESOURCES</h3>
-      <a href="#">Documentation</a>
-      <a href="#">FAQ</a>
-      <a href="#">Status</a>
-      <a href="https://discord.gg/jk9n94azpA">Support</a>
-
-      <h3>FOLLOW US</h3>
-      <a href="https://discord.gg/jk9n94azpA">Discord</a>
     </div>
 
+    <button class="hamburger" id="menuBtn">☰</button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close-btn" id="closeBtn">✕</button>
+    <h3>Matrix LINKS</h3>
+    <a href="index.html">Home</a>
+    <a href="features.html">Features</a>
+    <a href="commands.html">Commands</a>
+    <a href="about.html">About</a>
+    <a href="developer.html">Developer</a>
+    <a href="discord.html">Discord</a>
+    <a href="premium.html">Premium</a>
+
+    <h3>RESOURCES</h3>
+    <a href="#">Documentation</a>
+    <a href="#">FAQ</a>
+    <a href="#">Status</a>
+    <a href="https://discord.gg/jk9n94azpA" target="_blank">Support</a>
+
+    <h3>FOLLOW US</h3>
+    <a href="https://discord.gg/jk9n94azpA" target="_blank">Discord</a>
+  </div>
+
+  <!-- Premium Plans -->
   <div class="container">
     <h2>Premium Plans</h2>
     <p>Choose the plan that fits your needs. All plans include premium features and priority support.</p>
+
     <div class="plans">
       <div class="plan">
         <h3>7 Days</h3>
+        <div class="price">40 NPR</div>
         <ul>
           <li>All premium features</li>
           <li>Priority support</li>
           <li>Perfect for short events</li>
         </ul>
         <a href="https://discord.gg/jk9n94azpA" target="_blank">
-        <button>Buy Now</button>
+          <button>Buy Now</button>
+        </a>
       </div>
+
       <div class="plan">
         <h3>14 Days</h3>
+        <div class="price">80 NPR</div>
         <ul>
           <li>All premium features</li>
           <li>Priority support</li>
           <li>Great for tournaments</li>
         </ul>
         <a href="https://discord.gg/jk9n94azpA" target="_blank">
-        <button>Buy Now</button>
+          <button>Buy Now</button>
+        </a>
       </div>
+
       <div class="plan">
-        <h3>30 Days</h3>
+        <h3>1 Month</h3>
+        <div class="price">150 NPR</div>
         <ul>
           <li>All premium features</li>
           <li>Priority support</li>
           <li>Best value monthly</li>
         </ul>
         <a href="https://discord.gg/jk9n94azpA" target="_blank">
-        <button>Buy Now</button>
-      </div>
-      <div class="plan">
-        <h3>90 Days</h3>
-        <ul>
-          <li>All premium features</li>
-          <li>Priority support</li>
-          <li>Save more quarterly</li>
-        </ul>
-        <a href="https://discord.gg/jk9n94azpA" target="_blank">
-        <button>Buy Now</button>
+          <button>Buy Now</button>
+        </a>
       </div>
     </div>
   </div>
+
+  <!-- JS for Mobile Menu -->
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const closeBtn = document.getElementById("closeBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    menuBtn.addEventListener("click", () => {
+      mobileMenu.classList.add("active");
+    });
+
+    closeBtn.addEventListener("click", () => {
+      mobileMenu.classList.remove("active");
+    });
+  </script>
 </body>
 </html>
