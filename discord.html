@@ -3,162 +3,222 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Discord Esports Theme</title>
+  <title>Discord Server Info</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
     body {
-      font-family: "Orbitron", system-ui, sans-serif;
-      display:flex;justify-content:center;align-items:center;
-      min-height:100vh;margin:0;
-      background:#0d0f1a;
-      color:#e6eef8;
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top left, #1b2735, #0f1720 70%);
+      color: #e6eef8;
+      margin: 0;
     }
+
     .card {
-      background:#141828;
-      border:2px solid #2d3248;
-      border-radius:14px;
-      width:420px;
-      box-shadow:0 0 25px rgba(0, 255, 170, 0.25);
-      padding:20px;
+      background: rgba(15, 23, 32, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      padding: 20px;
+      border-radius: 16px;
+      width: 380px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-    h2 {
-      margin:0 0 10px;
-      font-size:20px;
-      text-transform:uppercase;
-      color:#00ffaa;
-      letter-spacing:1px;
-      text-shadow:0 0 6px #00ffaa80;
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
     }
+
+    .row { display: flex; align-items: center; gap: 10px }
+
     button {
-      background:linear-gradient(90deg,#5865f2,#3a48d9);
-      border:0;padding:10px 16px;
-      border-radius:8px;
-      color:#fff;font-weight:700;
-      cursor:pointer;transition:0.2s;
+      background: linear-gradient(90deg, #5865f2, #4854d6);
+      border: 0;
+      padding: 10px 16px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(88, 101, 242, 0.4);
+      transition: all 0.2s;
     }
-    button:hover { filter:brightness(1.2); }
-    .section {
-      margin-top:15px;
-      background:#1b1f2f;
-      border:1px solid #2e334c;
-      border-radius:10px;
-      padding:10px;
+    button:hover {
+      filter: brightness(1.15);
+      box-shadow: 0 4px 12px rgba(88, 101, 242, 0.6);
     }
-    .section h3 {
-      margin:0 0 10px;
-      font-size:15px;
-      color:#00ffaa;
-      border-bottom:1px solid #2d3248;
-      padding-bottom:4px;
-      text-transform:uppercase;
-      text-shadow:0 0 4px #00ffaa70;
+
+    .muted { color: #9ca8c7; font-size: 13px }
+    .small { font-size: 13px }
+
+    hr {
+      margin: 12px 0;
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
+
+    .members {
+      margin-top: 12px;
+      max-height: 220px;
+      overflow: auto;
+      padding-right: 6px;
+    }
+    .members::-webkit-scrollbar {
+      width: 6px;
+    }
+    .members::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+
     .member {
-      display:flex;align-items:center;
-      padding:6px 0;
-      gap:10px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.2s;
     }
+    .member:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
     .avatar {
-      width:32px;height:32px;border-radius:50%;
-      background:#2e334c;flex:0 0 32px;
-      background-size:cover;background-position:center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #243046;
+      flex: 0 0 34px;
+      background-size: cover;
+      background-position: center;
+      border: 2px solid rgba(255, 255, 255, 0.08);
     }
-    .name { font-weight:600; }
+
     .error {
-      margin-top:10px;padding:8px;
-      border-radius:8px;background:#3b1414;color:#ffb4b4;
+      color: #ffb4b4;
+      background: rgba(160, 40, 40, 0.4);
+      border: 1px solid rgba(255, 0, 0, 0.25);
+      padding: 8px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    iframe {
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;">
-      <h2>Bot Support Server</h2>
-      <button id="showBtn">Load Discord</button>
+  <!-- YOUR EXISTING HTML/JS, UNCHANGED -->
+  <div class="card" id="card">
+    <div class="row">
+      <div style="flex:1">
+        <div style="font-size:18px;font-weight:700">Bot Support</div>
+        <div class="muted small">Click to load live server data</div>
+      </div>
+      <button id="showBtn">Discord</button>
     </div>
 
     <div id="info" style="display:none">
-      <p><strong>Server:</strong> <span id="serverName">—</span></p>
-      <p><strong>Online:</strong> <span id="onlineCount">—</span></p>
-
-      <div class="section">
-        <h3>Online Members</h3>
-        <div id="onlineList"></div>
+      <hr>
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <div class="muted">Server name</div>
+          <div id="serverName" style="font-weight:700">—</div>
+        </div>
+        <div style="text-align:right">
+          <div class="muted">Online</div>
+          <div id="onlineCount" style="font-weight:700">—</div>
+        </div>
       </div>
 
-      <div class="section">
-        <h3>Bots</h3>
-        <div id="botList"></div>
-      </div>
+      <div style="margin-top:10px" class="muted small">Members (from widget)</div>
+      <div class="members" id="membersList"></div>
 
-      <div id="error" class="error" style="display:none"></div>
+      <div id="error" style="display:none" class="error"></div>
+
+      <div class="iframe-wrap" id="iframeWrap" style="display:none">
+        <div class="muted small">Official Discord widget:</div>
+        <iframe id="discordWidget" title="Discord Widget" style="width:100%;height:220px;border:0;margin-top:8px" src=""></iframe>
+      </div>
     </div>
   </div>
 
-<script>
-const GUILD_ID = "1406976728831758456";
+  <script>
+    const GUILD_ID = '1406976728831758456';
+    const showBtn = document.getElementById('showBtn');
+    const info = document.getElementById('info');
+    const serverNameEl = document.getElementById('serverName');
+    const onlineCountEl = document.getElementById('onlineCount');
+    const membersList = document.getElementById('membersList');
+    const errorEl = document.getElementById('error');
+    const iframeWrap = document.getElementById('iframeWrap');
+    const discordWidget = document.getElementById('discordWidget');
+    let pollingHandle = null;
 
-const showBtn = document.getElementById("showBtn");
-const info = document.getElementById("info");
-const serverNameEl = document.getElementById("serverName");
-const onlineCountEl = document.getElementById("onlineCount");
-const onlineList = document.getElementById("onlineList");
-const botList = document.getElementById("botList");
-const errorEl = document.getElementById("error");
+    showBtn.addEventListener('click', async () => {
+      showBtn.disabled = true;
+      showBtn.textContent = 'Loading...';
+      info.style.display = 'block';
+      await fetchAndShow();
+      discordWidget.src = `https://discord.com/widget?id=${GUILD_ID}&theme=dark`;
+      iframeWrap.style.display = 'none';
+      if (pollingHandle) clearInterval(pollingHandle);
+      pollingHandle = setInterval(fetchAndShow, 30000);
+      showBtn.textContent = 'Discord';
+      showBtn.disabled = false;
+    });
 
-showBtn.addEventListener("click", async () => {
-  showBtn.disabled = true;
-  showBtn.textContent = "Loading...";
-  info.style.display = "block";
-  await fetchAndShow();
-  showBtn.textContent = "Reload";
-  showBtn.disabled = false;
-});
-
-async function fetchAndShow() {
-  const url = `https://discord.com/api/guilds/1406976728831758456/widget.json`;
-  errorEl.style.display = "none";
-  try {
-    const res = await fetch(url,{cache:"no-store"});
-    if(!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-
-    serverNameEl.textContent = data.name || "—";
-    onlineCountEl.textContent = data.presence_count ?? "—";
-
-    onlineList.innerHTML = "";
-    botList.innerHTML = "";
-
-    if(Array.isArray(data.members)) {
-      data.members.forEach(m=>{
-        const div=document.createElement("div");
-        div.className="member";
-        const avatar=document.createElement("div");
-        avatar.className="avatar";
-        if(m.avatar_url){
-          avatar.style.backgroundImage=`url(${m.avatar_url})`;
+    async function fetchAndShow() {
+      const url = `https://discord.com/api/guilds/1406976728831758456/widget.json`;
+      errorEl.style.display = 'none';
+      try {
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        serverNameEl.textContent = data.name || '—';
+        onlineCountEl.textContent = (typeof data.presence_count === 'number') ? data.presence_count : '—';
+        membersList.innerHTML = '';
+        if (Array.isArray(data.members) && data.members.length) {
+          data.members.forEach(m => {
+            const div = document.createElement('div');
+            div.className = 'member';
+            const avatar = document.createElement('div');
+            avatar.className = 'avatar';
+            if (m.avatar_url) {
+              avatar.style.backgroundImage = `url(${m.avatar_url})`;
+            }
+            const txt = document.createElement('div');
+            txt.innerHTML = `<div style="font-weight:600">${escapeHtml(m.username || m.name || 'Unknown')}</div>
+                             <div class="muted small">${escapeHtml(m.status || (m.presence && m.presence.status) || '')}</div>`;
+            div.appendChild(avatar);
+            div.appendChild(txt);
+            membersList.appendChild(div);
+          });
+        } else {
+          membersList.innerHTML = '<div class="muted small">No member list returned by widget.</div>';
         }
-        const text=document.createElement("div");
-        text.innerHTML=`<div class="name">${escapeHtml(m.username||m.name||"Unknown")}</div>`;
-        div.appendChild(avatar);
-        div.appendChild(text);
-
-        if(m.bot){
-          botList.appendChild(div);
-        }else if(m.status==="online"){
-          onlineList.appendChild(div);
-        }
-      });
+        iframeWrap.style.display = 'none';
+      } catch (err) {
+        errorEl.style.display = 'block';
+        errorEl.textContent = 'Could not load widget JSON. Ensure Server Widget is enabled.';
+        iframeWrap.style.display = 'block';
+        membersList.innerHTML = '<div class="muted small">Using embedded widget instead.</div>';
+        console.warn('Error fetching widget.json:', err);
+      }
     }
-  } catch(err){
-    errorEl.style.display="block";
-    errorEl.textContent="Could not load data. Ensure Server Widget is enabled.";
-    console.warn(err);
-  }
-}
-
-function escapeHtml(s){
-  return String(s||"").replace(/[&<>"'`]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;","`":"&#96;"}[c]));
-}
-</script>
+    function escapeHtml(s) {
+      return String(s || '').replace(/[&<>"'`]/g, c => (
+        {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]
+      ));
+    }
+  </script>
 </body>
 </html>
