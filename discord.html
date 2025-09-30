@@ -63,7 +63,6 @@
       background-size:cover;background-position:center;
     }
     .name { font-weight:600; }
-    .status { font-size:12px;color:#98a0b3; }
     .error {
       margin-top:10px;padding:8px;
       border-radius:8px;background:#3b1414;color:#ffb4b4;
@@ -87,11 +86,6 @@
       </div>
 
       <div class="section">
-        <h3>Offline Members</h3>
-        <div id="offlineList"></div>
-      </div>
-
-      <div class="section">
         <h3>Bots</h3>
         <div id="botList"></div>
       </div>
@@ -108,7 +102,6 @@ const info = document.getElementById("info");
 const serverNameEl = document.getElementById("serverName");
 const onlineCountEl = document.getElementById("onlineCount");
 const onlineList = document.getElementById("onlineList");
-const offlineList = document.getElementById("offlineList");
 const botList = document.getElementById("botList");
 const errorEl = document.getElementById("error");
 
@@ -133,7 +126,6 @@ async function fetchAndShow() {
     onlineCountEl.textContent = data.presence_count ?? "—";
 
     onlineList.innerHTML = "";
-    offlineList.innerHTML = "";
     botList.innerHTML = "";
 
     if(Array.isArray(data.members)) {
@@ -154,8 +146,6 @@ async function fetchAndShow() {
           botList.appendChild(div);
         }else if(m.status==="online"){
           onlineList.appendChild(div);
-        }else{
-          offlineList.appendChild(div);
         }
       });
     }
