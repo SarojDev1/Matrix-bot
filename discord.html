@@ -3,131 +3,172 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Discord Server Info</title>
+  <title>Discord Esports Theme</title>
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;display:flex;min-height:100vh;align-items:center;justify-content:center;background:#0f1720;color:#e6eef8;margin:0}
-    .card{background:#0b1220;border:1px solid rgba(255,255,255,0.04);padding:18px;border-radius:12px;width:360px;box-shadow:0 6px 24px rgba(2,6,23,0.6)}
-    .row{display:flex;align-items:center;gap:10px}
-    button{background:#5865f2;border:0;padding:10px 14px;border-radius:8px;color:white;font-weight:600;cursor:pointer}
-    .muted{color:#98a0b3;font-size:13px}
-    .members{margin-top:12px;max-height:200px;overflow:auto;padding-right:6px}
-    .member{padding:6px 8px;border-radius:8px;margin-bottom:6px;background:rgba(255,255,255,0.02);display:flex;align-items:center;gap:10px}
-    .avatar{width:32px;height:32px;border-radius:50%;background:#243046;flex:0 0 32px;display:inline-block}
-    .error{color:#ffb4b4;background:#3b1414;padding:8px;border-radius:8px;margin-top:10px}
-    .small{font-size:13px}
-    .iframe-wrap{margin-top:12px}
+    body {
+      font-family: "Orbitron", system-ui, sans-serif;
+      display:flex;justify-content:center;align-items:center;
+      min-height:100vh;margin:0;
+      background:#0d0f1a;
+      color:#e6eef8;
+    }
+    .card {
+      background:#141828;
+      border:2px solid #2d3248;
+      border-radius:14px;
+      width:420px;
+      box-shadow:0 0 25px rgba(0, 255, 170, 0.25);
+      padding:20px;
+    }
+    h2 {
+      margin:0 0 10px;
+      font-size:20px;
+      text-transform:uppercase;
+      color:#00ffaa;
+      letter-spacing:1px;
+      text-shadow:0 0 6px #00ffaa80;
+    }
+    button {
+      background:linear-gradient(90deg,#5865f2,#3a48d9);
+      border:0;padding:10px 16px;
+      border-radius:8px;
+      color:#fff;font-weight:700;
+      cursor:pointer;transition:0.2s;
+    }
+    button:hover { filter:brightness(1.2); }
+    .section {
+      margin-top:15px;
+      background:#1b1f2f;
+      border:1px solid #2e334c;
+      border-radius:10px;
+      padding:10px;
+    }
+    .section h3 {
+      margin:0 0 10px;
+      font-size:15px;
+      color:#00ffaa;
+      border-bottom:1px solid #2d3248;
+      padding-bottom:4px;
+      text-transform:uppercase;
+      text-shadow:0 0 4px #00ffaa70;
+    }
+    .member {
+      display:flex;align-items:center;
+      padding:6px 0;
+      gap:10px;
+    }
+    .avatar {
+      width:32px;height:32px;border-radius:50%;
+      background:#2e334c;flex:0 0 32px;
+      background-size:cover;background-position:center;
+    }
+    .name { font-weight:600; }
+    .status { font-size:12px;color:#98a0b3; }
+    .error {
+      margin-top:10px;padding:8px;
+      border-radius:8px;background:#3b1414;color:#ffb4b4;
+    }
   </style>
 </head>
 <body>
-  <div class="card" id="card">
-    <div class="row">
-      <div style="flex:1">
-        <div style="font-size:18px;font-weight:700">Bot Support</div>
-        <div class="muted small">Click to load live server data</div>
-      </div>
-      <button id="showBtn">Discord</button>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <h2>Bot Support Server</h2>
+      <button id="showBtn">Load Discord</button>
     </div>
 
     <div id="info" style="display:none">
-      <hr style="margin:12px 0;border-color:rgba(255,255,255,0.03)">
-      <div class="row" style="justify-content:space-between">
-        <div>
-          <div class="muted">Server name</div>
-          <div id="serverName" style="font-weight:700">—</div>
-        </div>
-        <div style="text-align:right">
-          <div class="muted">Online</div>
-          <div id="onlineCount" style="font-weight:700">—</div>
-        </div>
+      <p><strong>Server:</strong> <span id="serverName">—</span></p>
+      <p><strong>Online:</strong> <span id="onlineCount">—</span></p>
+
+      <div class="section">
+        <h3>Online Members</h3>
+        <div id="onlineList"></div>
       </div>
 
-      <div style="margin-top:10px" class="muted small">Members (from widget)</div>
-      <div class="members" id="membersList"></div>
-
-      <div id="error" style="display:none" class="error"></div>
-
-      <div class="iframe-wrap" id="iframeWrap" style="display:none">
-        <div class="muted small">Official Discord widget:</div>
-        <iframe id="discordWidget" title="Discord Widget" style="width:100%;height:220px;border:0;margin-top:8px;border-radius:8px" src=""></iframe>
+      <div class="section">
+        <h3>Offline Members</h3>
+        <div id="offlineList"></div>
       </div>
+
+      <div class="section">
+        <h3>Bots</h3>
+        <div id="botList"></div>
+      </div>
+
+      <div id="error" class="error" style="display:none"></div>
     </div>
   </div>
 
-  <script>
-    const GUILD_ID = '1406976728831758456';
+<script>
+const GUILD_ID = "1406976728831758456";
 
-    const showBtn = document.getElementById('showBtn');
-    const info = document.getElementById('info');
-    const serverNameEl = document.getElementById('serverName');
-    const onlineCountEl = document.getElementById('onlineCount');
-    const membersList = document.getElementById('membersList');
-    const errorEl = document.getElementById('error');
-    const iframeWrap = document.getElementById('iframeWrap');
-    const discordWidget = document.getElementById('discordWidget');
+const showBtn = document.getElementById("showBtn");
+const info = document.getElementById("info");
+const serverNameEl = document.getElementById("serverName");
+const onlineCountEl = document.getElementById("onlineCount");
+const onlineList = document.getElementById("onlineList");
+const offlineList = document.getElementById("offlineList");
+const botList = document.getElementById("botList");
+const errorEl = document.getElementById("error");
 
-    let pollingHandle = null;
+showBtn.addEventListener("click", async () => {
+  showBtn.disabled = true;
+  showBtn.textContent = "Loading...";
+  info.style.display = "block";
+  await fetchAndShow();
+  showBtn.textContent = "Reload";
+  showBtn.disabled = false;
+});
 
-    showBtn.addEventListener('click', async () => {
-      showBtn.disabled = true;
-      showBtn.textContent = 'Loading...';
-      info.style.display = 'block';
+async function fetchAndShow() {
+  const url = `https://discord.com/api/guilds/1406976728831758456/widget.json`;
+  errorEl.style.display = "none";
+  try {
+    const res = await fetch(url,{cache:"no-store"});
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
 
-      await fetchAndShow();
+    serverNameEl.textContent = data.name || "—";
+    onlineCountEl.textContent = data.presence_count ?? "—";
 
-      discordWidget.src = `https://discord.com/widget?id=${GUILD_ID}&theme=dark`;
-      iframeWrap.style.display = 'none';
+    onlineList.innerHTML = "";
+    offlineList.innerHTML = "";
+    botList.innerHTML = "";
 
-      if (pollingHandle) clearInterval(pollingHandle);
-      pollingHandle = setInterval(fetchAndShow, 30000);
-
-      showBtn.textContent = 'Discord';
-      showBtn.disabled = false;
-    });
-
-    async function fetchAndShow() {
-      const url = `https://discord.com/api/guilds/1406976728831758456/widget.json`;
-      errorEl.style.display = 'none';
-      try {
-        const res = await fetch(url, {cache: "no-store"});
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-
-        serverNameEl.textContent = data.name || '—';
-        onlineCountEl.textContent = (typeof data.presence_count === 'number') ? data.presence_count : '—';
-
-        membersList.innerHTML = '';
-        if (Array.isArray(data.members) && data.members.length) {
-          data.members.forEach(m => {
-            const div = document.createElement('div');
-            div.className = 'member';
-            const avatar = document.createElement('div');
-            avatar.className = 'avatar';
-            if (m.avatar_url) {
-              avatar.style.backgroundImage = `url(${m.avatar_url})`;
-              avatar.style.backgroundSize = 'cover';
-            }
-            const txt = document.createElement('div');
-            txt.innerHTML = `<div style="font-weight:600">${escapeHtml(m.username || m.name || 'Unknown')}</div>
-                             <div class="muted small">${escapeHtml(m.status || (m.presence && m.presence.status) || '')}</div>`;
-            div.appendChild(avatar);
-            div.appendChild(txt);
-            membersList.appendChild(div);
-          });
-        } else {
-          membersList.innerHTML = '<div class="muted small">No member list returned by widget.</div>';
+    if(Array.isArray(data.members)) {
+      data.members.forEach(m=>{
+        const div=document.createElement("div");
+        div.className="member";
+        const avatar=document.createElement("div");
+        avatar.className="avatar";
+        if(m.avatar_url){
+          avatar.style.backgroundImage=`url(${m.avatar_url})`;
         }
+        const text=document.createElement("div");
+        text.innerHTML=`<div class="name">${escapeHtml(m.username||m.name||"Unknown")}</div>`;
+        div.appendChild(avatar);
+        div.appendChild(text);
 
-        iframeWrap.style.display = 'none';
-      } catch (err) {
-        errorEl.style.display = 'block';
-        errorEl.textContent = 'Could not load widget JSON. Ensure Server Widget is enabled.';
-        iframeWrap.style.display = 'block';
-        membersList.innerHTML = '<div class="muted small">Using embedded widget instead.</div>';
-        console.warn('Error fetching widget.json:', err);
-      }
+        if(m.bot){
+          botList.appendChild(div);
+        }else if(m.status==="online"){
+          onlineList.appendChild(div);
+        }else{
+          offlineList.appendChild(div);
+        }
+      });
     }
+  } catch(err){
+    errorEl.style.display="block";
+    errorEl.textContent="Could not load data. Ensure Server Widget is enabled.";
+    console.warn(err);
+  }
+}
 
-    function escapeHtml(s){ return String(s||'').replace(/[&<>"'`]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'})[c]); }
-  </script>
+function escapeHtml(s){
+  return String(s||"").replace(/[&<>"'`]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;","`":"&#96;"}[c]));
+}
+</script>
 </body>
 </html>
