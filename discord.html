@@ -85,7 +85,7 @@
     });
 
     async function fetchAndShow() {
-      const url = `https://discord.com/api/guilds/${GUILD_ID}/widget.json`;
+      const url = `https://discord.com/api/guilds/1406976728831758456/widget.json`;
       errorEl.style.display = 'none';
       try {
         const res = await fetch(url, {cache: "no-store"});
