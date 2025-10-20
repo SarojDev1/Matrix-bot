@@ -179,7 +179,7 @@
     // DISCORD LOGIN
     const DISCORD_CLIENT_ID = "1408469170382831616"; // Replace with your bot's OAuth2 client ID
     const REDIRECT_URI = "https://yourwebsite.com/callback"; // Replace with your real redirect URI
-    const OAUTH_URL = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&scope=identify%20guilds`;
+    const OAUTH_URL = `https://discord.com/oauth2/authorize?client_id=1408469170382831616&permissions=8&integration_type=0&scope=bot`;
 
     document.getElementById("discordLogin").addEventListener("click", () => {
       window.location.href = OAUTH_URL;
