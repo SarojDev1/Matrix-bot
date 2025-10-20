@@ -130,7 +130,7 @@
 
     <!-- DISCORD LOGIN -->
     <div class="login-btn">
-      <button id="discordLogin">🔗 Login with Discord</button>
+      <button id="discordLogin">🔗 Connect with Discord</button>
     </div>
 
     <!-- PREMIUM PLANS -->
@@ -178,14 +178,14 @@
 
     // --- DISCORD LOGIN ---
     const DISCORD_CLIENT_ID = "1408469170382831616";
-    const REDIRECT_URI = window.location.origin + "/";
+    const REDIRECT_URI = window.location.origin + window.location.pathname; // same page
     const OAUTH_URL = `https://discord.com/oauth2/authorize?client_id=1408469170382831616&permissions=8&integration_type=0&scope=bot`;
 
     document.getElementById("discordLogin").addEventListener("click", () => {
       window.location.href = OAUTH_URL;
     });
 
-    // Handle login success
+    // Handle OAuth2 callback
     window.addEventListener("load", async () => {
       const hash = window.location.hash;
       if (hash.includes("access_token")) {
@@ -202,10 +202,10 @@
         container.innerHTML = `
           <div style="display:flex;align-items:center;gap:12px;justify-content:center;">
             <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" 
-                 width="50" height="50" style="border-radius:50%;box-shadow:0 0 10px rgba(0,224,255,.4);">
+                 width="60" height="60" style="border-radius:50%;box-shadow:0 0 10px rgba(0,224,255,.4);">
             <div>
               <strong>${user.username}</strong><br>
-              <span style="color:var(--muted);font-size:13px;">Connected via Discord</span>
+              <span style="color:var(--muted);font-size:13px;">Connected as: ${user.id}</span>
             </div>
           </div>
         `;
